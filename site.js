@@ -28,12 +28,15 @@
     var el = document.getElementById("site-header");
     if (!el) return;
 
-    // TODO: when the personal logo graphic is ready, replace the <a> below
-    // with this line (and delete the <a>):
-    //   '<img class="logo-img" src="' + BASE + 'assets/logo.png" alt="jamie xie">'
+    // Title plate: personal logo graphic (denim.webp — optimized;
+    // the full-resolution master lives on the Desktop, not in the repo).
+    // If you ever want the Shizuru text back temporarily, swap the <img> for:
+    //   '<a class="logo" href="' + BASE + '">jamie xie</a>'
     el.innerHTML =
       '<header class="site-header">' +
-        '<a class="logo" href="' + BASE + '">jamie xie</a>' +
+        '<a class="logo-link" href="' + BASE + '">' +
+          '<img class="logo-img" src="' + BASE + 'assets/denim.webp" alt="Jamie Xie">' +
+        "</a>" +
         '<span class="tagline">Journalism, Culture, &amp; Media</span>' +
         '<div class="header-icons">' +
           // future small icon goes here, to the LEFT of the bee —
@@ -50,7 +53,9 @@
     var el = document.getElementById("sidebar");
     if (!el) return;
 
-    var html =
+    // nav links live in .nav-list so they can collapse into a
+    // button-toggled panel on small screens
+    var nav =
       '<a class="nav-link' + (active === "about" ? " active" : "") +
       '" href="' + BASE + '">About</a>';
 
@@ -62,20 +67,42 @@
     years.sort(function (a, b) { return b - a; });
 
     years.forEach(function (year) {
-      html += '<div class="year">' + year + "</div>"; // years are labels, not links
+      nav += '<div class="year">' + year + "</div>"; // years are labels, not links
       PIECES.forEach(function (piece) {
         if (piece.year !== year) return;
-        html +=
+        nav +=
           '<a class="nav-link' + (active === piece.slug ? " active" : "") +
           '" href="' + BASE + piece.slug + '/">' + piece.title + "</a>";
       });
     });
+
+    var html = '<div class="nav-list" id="nav-list">' + nav + "</div>";
+
+    // wax seal sits at the bottom of the sidebar, above "Currently reading"
+    // (on small screens it moves to the top, above the menu button)
+    html += '<img class="wax-seal" src="' + BASE + 'assets/waxtulips.png" alt="wax seal with tulips">';
+
+    // small-screen floating menu button — the wax seal with three dots
+    // (hidden on desktop by CSS; floats bottom-left on mobile)
+    html +=
+      '<button class="menu-button" id="menu-button" type="button" ' +
+      'aria-expanded="false" aria-controls="nav-list" aria-label="Open menu">' +
+      '<img src="' + BASE + 'assets/waxtulipsmenu.png" alt=""></button>';
 
     html +=
       '<div class="reading">' + READING.label + "<br>" +
       READING.book + "<br>" + READING.date + "</div>";
 
     el.innerHTML = html;
+
+    // toggle the collapsed nav on small screens
+    var button = document.getElementById("menu-button");
+    var navList = document.getElementById("nav-list");
+    button.addEventListener("click", function () {
+      var open = navList.classList.toggle("open");
+      button.setAttribute("aria-expanded", open ? "true" : "false");
+      button.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    });
   }
 
   /* ---------- piece page content ---------- */
@@ -102,6 +129,19 @@
 
     html += "<p>Full text below.</p>";
     html += piece.body.map(function (para) { return "<p>" + para + "</p>"; }).join("");
+
+    // back / next navigation through the piece list (sidebar order)
+    var i = PIECES.indexOf(piece);
+    var navHtml = '<nav class="piece-nav">';
+    if (i > 0) {
+      navHtml += '<a href="' + BASE + PIECES[i - 1].slug + '/">&lt; back</a>';
+    }
+    if (i > 0 && i < PIECES.length - 1) navHtml += " | ";
+    if (i < PIECES.length - 1) {
+      navHtml += '<a href="' + BASE + PIECES[i + 1].slug + '/">next &gt;</a>';
+    }
+    navHtml += "</nav>";
+    html += navHtml;
 
     el.innerHTML = html;
   }

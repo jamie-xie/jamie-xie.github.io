@@ -7,7 +7,7 @@
    ============================================================ */
 
 :root {
-  --bg: #FFFBF2;
+  --bg: #FFFDF0;
   --ink: #232323;
   --faint: #B09485;
   --hl: rgba(255, 204, 0, 0.3); /* #FFCC00 at 30% opacity */
@@ -31,12 +31,25 @@ a { color: inherit; }
 .site-header {
   display: flex;
   align-items: flex-end;
-  padding: 2rem 3rem 1rem;
+  position: relative;   /* anchor for the corner icons */
+  /* no top padding: the denim patch runs right up to the top edge
+     of the page, as in the reference mockup */
+  padding: 0 3rem 1rem;
 }
 
-/* Text placeholder for the personal logo.
-   To swap in the real logo graphic later, edit renderHeader() in site.js —
-   there is a ready-to-use <img class="logo-img"> line commented in there. */
+/* Title plate — personal logo graphic (denim.webp). The fold-over crop
+   at the top is baked into the image itself, so no negative margins
+   here — just flush to the top edge of the page (header padding-top: 0).
+   Fallback text style kept below in .logo. */
+.logo-link { display: inline-block; }
+
+.logo-img {
+  width: clamp(170px, 19vw, 320px);
+  height: auto;
+  display: block;
+}
+
+/* Fallback text placeholder for the logo (unused while the graphic is in) */
 .logo {
   font-family: "Shizuru", "Hedvig Letters Serif", cursive;
   font-size: 36pt;
@@ -47,28 +60,41 @@ a { color: inherit; }
   padding-bottom: 2px;
 }
 
-/* When the logo becomes an image, this class keeps it sized sensibly:
-   .logo-img { height: 64px; width: auto; display: block; } */
-
 .tagline {
   color: var(--faint);
   margin-left: 4rem;
+  margin-right: 8rem; /* keep clear of the corner bee */
   padding-bottom: 0.4rem;
 }
 
-/* Right-hand icon row. To add the future second icon, drop another
-   <img> into .header-icons in site.js BEFORE the bee — flexbox + gap
-   will place it automatically. */
+/* hide the subtitle before it can collide with the bee on narrow windows */
+@media (max-width: 900px) {
+  .tagline { display: none; }
+}
+
+/* .nav-list groups the sidebar links so they can collapse into a panel
+   on small screens; display: contents keeps the desktop layout unchanged */
+.nav-list { display: contents; }
+
+/* menu button only appears on small screens */
+.menu-button { display: none; }
+
+/* Corner icons — pinned to the upper-right with even top/right margins
+   that scale with the window (independent of how tall the logo makes
+   the header). To add the future second icon, drop another <img> into
+   .header-icons in site.js BEFORE the bee — flexbox + gap will place
+   it automatically. */
 .header-icons {
-  margin-left: auto;
+  position: absolute;
+  top: clamp(1rem, 4vw, 2.5rem);
+  right: clamp(1rem, 4vw, 2.5rem);
   display: flex;
   align-items: center;
   gap: 1.25rem;
-  padding-bottom: 0.4rem;
 }
 
 .header-icons img {
-  width: 60px;
+  width: clamp(36px, 5vw, 60px);
   height: auto;
   display: block;
 }
@@ -134,8 +160,16 @@ a { color: inherit; }
   margin-top: 0.6rem;
 }
 
+/* wax seal at the bottom of the sidebar, above "Currently reading" */
+.wax-seal {
+  width: 80px;
+  height: auto;
+  display: block;
+  margin-top: 1.25rem;
+}
+
 .reading {
-  margin-top: 5rem;
+  margin-top: 2rem;
   color: var(--ink);
 }
 
@@ -190,15 +224,79 @@ a { color: inherit; }
 
 .content a[href^="mailto"] { text-decoration: none; }
 
+/* back / next navigation at the bottom of piece pages.
+   unvisited links yellow #D5AD0D, visited links dark blue #47759D */
+.piece-nav {
+  text-align: right;
+  margin-top: 3rem;
+}
+
+.piece-nav a {
+  color: #D5AD0D;
+  text-decoration: none;
+}
+
+.piece-nav a:visited {
+  color: #47759D;
+}
+
+.piece-nav a:hover {
+  text-decoration: underline;
+}
+
 /* ---------- small screens ---------- */
 
 @media (max-width: 720px) {
   body { font-size: 12pt; }
-  .site-header { padding: 1.25rem 1.25rem 0.75rem; }
+  .site-header { padding: 0 1.25rem 0.75rem; }
   .logo { font-size: 26pt; }
-  .tagline { margin-left: 1.5rem; }
   .rule { margin: 0 1.25rem; }
-  .layout { flex-direction: column; gap: 2rem; padding: 1.25rem; }
-  .sidebar { width: 100%; align-items: flex-start; text-align: left; }
+  .layout {
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1.25rem 1.25rem 8rem; /* extra bottom room so the floating
+                                      menu seal never covers text */
+  }
   .piece-title { font-size: 26pt; }
+
+  /* the sidebar's in-flow contents all disappear on mobile; the nav is
+     reached via the floating menu seal. display:contents collapses the
+     empty strip so it leaves no gap above the content. */
+  .sidebar { display: contents; }
+  .wax-seal { display: none; }
+  .reading { display: none; }
+
+  /* floating menu button: the wax seal with three dots, pinned to the
+     bottom-left corner so it's always reachable mid-article */
+  .menu-button {
+    display: block;
+    position: fixed;
+    left: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 20;
+    width: 84px;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .menu-button img { width: 100%; height: auto; display: block; }
+
+  /* collapsed by default; .open is toggled by the menu button */
+  .nav-list { display: none; }
+  .nav-list.open {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: fixed;
+    left: 1.25rem;
+    bottom: calc(1.25rem + 96px); /* floats just above the menu seal */
+    z-index: 20;
+    background: #B9D6EB;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 6px 24px rgba(35, 35, 35, 0.14);
+    padding: 1rem 1.5rem;
+    width: min(70vw, 300px);
+  }
 }
