@@ -1,0 +1,204 @@
+/* ============================================================
+   jamie xie — personal site
+   Fonts: Hedvig Letters Serif (body 14pt, headings 36pt),
+          Shizuru (logo placeholder — will be swapped for an image)
+   Colours: bg #FFFBF2 · ink #232323 · faint #B09485
+            highlight #FFCC00 @ 30% opacity
+   ============================================================ */
+
+:root {
+  --bg: #FFFBF2;
+  --ink: #232323;
+  --faint: #B09485;
+  --hl: rgba(255, 204, 0, 0.3); /* #FFCC00 at 30% opacity */
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Hedvig Letters Serif", Georgia, "Times New Roman", serif;
+  font-size: 14pt;
+  line-height: 1.35;
+}
+
+a { color: inherit; }
+
+/* ---------- header ---------- */
+
+.site-header {
+  display: flex;
+  align-items: flex-end;
+  padding: 2rem 3rem 1rem;
+}
+
+/* Text placeholder for the personal logo.
+   To swap in the real logo graphic later, edit renderHeader() in site.js —
+   there is a ready-to-use <img class="logo-img"> line commented in there. */
+.logo {
+  font-family: "Shizuru", "Hedvig Letters Serif", cursive;
+  font-size: 36pt;
+  line-height: 1;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  padding-bottom: 2px;
+}
+
+/* When the logo becomes an image, this class keeps it sized sensibly:
+   .logo-img { height: 64px; width: auto; display: block; } */
+
+.tagline {
+  color: var(--faint);
+  margin-left: 4rem;
+  padding-bottom: 0.4rem;
+}
+
+/* Right-hand icon row. To add the future second icon, drop another
+   <img> into .header-icons in site.js BEFORE the bee — flexbox + gap
+   will place it automatically. */
+.header-icons {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding-bottom: 0.4rem;
+}
+
+.header-icons img {
+  width: 60px;
+  height: auto;
+  display: block;
+}
+
+/* dashed rule under the header: 2px dash / 2px gap */
+.rule {
+  height: 2px;
+  margin: 0 3rem;
+  background-image: linear-gradient(90deg, var(--faint) 2px, transparent 2px);
+  background-size: 4px 2px;
+  background-repeat: repeat-x;
+}
+
+/* ---------- layout ---------- */
+
+.layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 3.5rem;
+  padding: 1.75rem 3rem 4rem;
+}
+
+/* ---------- sidebar ---------- */
+
+.sidebar {
+  flex: none;
+  width: 230px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;   /* right-aligned, links shrink-wrap the word */
+  text-align: right;
+}
+
+/* nav links: yellow highlight sweeps in left -> right on hover */
+.nav-link {
+  display: inline-block;
+  color: var(--ink);
+  text-decoration: none;
+  background-image: linear-gradient(var(--hl), var(--hl));
+  background-repeat: no-repeat;
+  background-position: 0 0;          /* sweep starts at the left edge */
+  background-size: 0% 100%;
+  transition: background-size 0.35s ease;
+}
+
+.nav-link:hover {
+  background-size: 100% 100%;
+}
+
+/* current page: bold + permanently highlighted.
+   Hedvig Letters Serif ships at weight 400 only, so boldness is faked
+   with a thin outer stroke (per the design spec). */
+.nav-link.active {
+  font-weight: 700;
+  -webkit-text-stroke: 0.3px var(--ink);
+  text-stroke: 0.3px var(--ink);
+  background-size: 100% 100%;
+}
+
+/* year labels: plain, faint, NOT clickable */
+.year {
+  color: var(--faint);
+  margin-top: 0.6rem;
+}
+
+.reading {
+  margin-top: 5rem;
+  color: var(--ink);
+}
+
+/* ---------- main content ---------- */
+
+.content {
+  max-width: 60ch;
+  animation: fade-up 0.45s ease both;   /* small JS-free page animation */
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.content p { margin: 0 0 1.5rem; }
+
+/* piece page heading: 36pt bold; Hedvig has no bold cut,
+   so add the specified 0.4px outer stroke */
+.piece-title {
+  font-size: 36pt;
+  font-weight: 700;
+  -webkit-text-stroke: 0.4px var(--ink);
+  text-stroke: 0.4px var(--ink);
+  text-transform: uppercase;
+  line-height: 1.15;
+  margin: 0 0 1rem;
+}
+
+.piece-meta { margin-bottom: 1.5rem; }
+.piece-meta a { text-decoration: underline; }
+
+.piece-image {
+  width: min(100%, 420px);
+  height: auto;
+  display: block;
+  margin: 0 0 1.5rem;
+}
+
+.piece-caption { margin: 0 0 1.5rem; }
+
+/* ---------- about page ---------- */
+
+/* Paddington: sized to match the reference mockup
+   (~11% of the page width, roughly 90–150px) */
+.paddington {
+  width: clamp(90px, 11vw, 150px);
+  height: auto;
+  display: block;
+  margin: 1.5rem 0;
+}
+
+.content a[href^="mailto"] { text-decoration: none; }
+
+/* ---------- small screens ---------- */
+
+@media (max-width: 720px) {
+  body { font-size: 12pt; }
+  .site-header { padding: 1.25rem 1.25rem 0.75rem; }
+  .logo { font-size: 26pt; }
+  .tagline { margin-left: 1.5rem; }
+  .rule { margin: 0 1.25rem; }
+  .layout { flex-direction: column; gap: 2rem; padding: 1.25rem; }
+  .sidebar { width: 100%; align-items: flex-start; text-align: left; }
+  .piece-title { font-size: 26pt; }
+}
