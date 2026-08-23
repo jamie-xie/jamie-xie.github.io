@@ -226,7 +226,7 @@ a { color: inherit; }
 /* back / next navigation at the bottom of piece pages.
    unvisited links yellow #D5AD0D, visited links dark blue #47759D */
 .piece-nav {
-  text-align: left;
+  text-align: right;
   margin-top: 3rem;
 }
 
@@ -250,12 +250,7 @@ a { color: inherit; }
   .site-header { padding: 0 1.25rem 0.75rem; }
   .logo { font-size: 26pt; }
   .rule { margin: 0 1.25rem; }
-  .layout {
-    flex-direction: column;
-    gap: 2rem;
-    padding: 1.25rem 1.25rem 8rem; /* extra bottom room so the floating
-                                      menu seal never covers text */
-  }
+  .layout { flex-direction: column; gap: 2rem; padding: 1.25rem; }
   .piece-title { font-size: 26pt; }
 
   /* the sidebar's in-flow contents all disappear on mobile; the nav is
@@ -267,6 +262,9 @@ a { color: inherit; }
 
   /* hide the tagline on mobile, where the floating menu seal appears */
   .tagline { display: none; }
+
+  /* back/next links move to the left on small screens */
+  .piece-nav { text-align: left; }
 
   /* floating menu button: the wax seal with three dots, pinned to the
      bottom-right corner so it's always reachable mid-article */
