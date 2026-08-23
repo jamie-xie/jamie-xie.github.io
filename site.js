@@ -41,7 +41,9 @@
         '<div class="header-icons">' +
           // future small icon goes here, to the LEFT of the bee —
           // just add another <img> line above this one
-          '<img class="icon-bee" src="' + BASE + 'assets/bee.png" alt="bee">' +
+          '<a href="' + BASE + '" aria-label="About — home">' +
+            '<img class="icon-bee" src="' + BASE + 'assets/bee.png" alt="bee">' +
+          "</a>" +
         "</div>" +
       "</header>" +
       '<div class="rule" aria-hidden="true"></div>';
