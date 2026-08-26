@@ -28,14 +28,14 @@
     var el = document.getElementById("site-header");
     if (!el) return;
 
-    // Title plate: personal logo graphic (denim.webp — optimized;
+    // Title plate: personal logo graphic (jamie.webp — crayon lettering;
     // the full-resolution master lives on the Desktop, not in the repo).
     // If you ever want the Shizuru text back temporarily, swap the <img> for:
     //   '<a class="logo" href="' + BASE + '">jamie xie</a>'
     el.innerHTML =
       '<header class="site-header">' +
         '<a class="logo-link" href="' + BASE + '">' +
-          '<img class="logo-img" src="' + BASE + 'assets/denim.webp" alt="Jamie Xie">' +
+          '<img class="logo-img" src="' + BASE + 'assets/jamie.webp" alt="jamie xie">' +
         "</a>" +
         '<span class="tagline">Journalism, Culture, &amp; Media</span>' +
         '<div class="header-icons">' +

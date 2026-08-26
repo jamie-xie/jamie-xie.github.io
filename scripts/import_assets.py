@@ -2,7 +2,7 @@
 """Re-import master assets from the Desktop folder into the repo.
 
 Trims transparent margins, resizes for web, and compresses:
-  denim.png          -> assets/denim.webp          (logo, 720px wide)
+  jamie.png          -> assets/jamie.webp          (logo, 900px wide)
   waxtulips.png      -> assets/waxtulips.png       (seal, 320px wide)
   waxtulipsmenu.png  -> assets/waxtulipsmenu.png   (menu icon, 256px wide)
 
@@ -34,9 +34,9 @@ def shrink(img, max_w):
 
 
 def main():
-    logo = shrink(trim(Image.open(MASTERS / "denim.png").convert("RGBA")), 720)
-    logo.save(ASSETS / "denim.webp", "WEBP", quality=88, method=6)
-    print("denim.webp:", logo.size, os.path.getsize(ASSETS / "denim.webp"), "bytes")
+    logo = shrink(trim(Image.open(MASTERS / "jamie.png").convert("RGBA")), 900)
+    logo.save(ASSETS / "jamie.webp", "WEBP", quality=88, method=6)
+    print("jamie.webp:", logo.size, os.path.getsize(ASSETS / "jamie.webp"), "bytes")
 
     seal = shrink(trim(Image.open(MASTERS / "waxtulips.png").convert("RGBA")), 320)
     seal.save(ASSETS / "waxtulips.png", optimize=True)

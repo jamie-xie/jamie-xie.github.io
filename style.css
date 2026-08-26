@@ -32,19 +32,15 @@ a { color: inherit; }
   display: flex;
   align-items: flex-end;
   position: relative;   /* anchor for the corner icons */
-  /* no top padding: the denim patch runs right up to the top edge
-     of the page, as in the reference mockup */
-  padding: 0 3rem 1rem;
+  padding: 2.5rem 3rem 1rem;
 }
 
-/* Title plate — personal logo graphic (denim.webp). The fold-over crop
-   at the top is baked into the image itself, so no negative margins
-   here — just flush to the top edge of the page (header padding-top: 0).
+/* Title plate — personal logo graphic (jamie.webp, crayon lettering).
    Fallback text style kept below in .logo. */
 .logo-link { display: inline-block; }
 
 .logo-img {
-  width: clamp(150px, 19vw, 200px);
+  width: clamp(200px, 20vw, 300px);
   height: auto;
   display: block;
 }
@@ -60,15 +56,13 @@ a { color: inherit; }
   padding-bottom: 2px;
 }
 
-/* Tagline sits just above the dashed rule, left-aligned with the content
-   column below it (3rem page padding + 230px sidebar + 3.5rem gap —
-   keep in sync with .layout / .sidebar if those change). */
+/* Tagline sits to the right of the logo, baseline-aligned with it.
+   margin-right keeps it clear of the corner bee at mid window widths. */
 .tagline {
   color: var(--faint);
-  position: absolute;
-  left: calc(3rem + 230px + 3.5rem);
-  bottom: 0.9rem;
-  margin: 0;
+  margin-left: 1.75rem;
+  margin-right: 8rem;
+  padding-bottom: 0.4rem;
 }
 
 /* .nav-list groups the sidebar links so they can collapse into a panel
@@ -247,7 +241,7 @@ a { color: inherit; }
 
 @media (max-width: 720px) {
   body { font-size: 12pt; }
-  .site-header { padding: 0 1.25rem 0.75rem; }
+  .site-header { padding: 1.5rem 1.25rem 0.75rem; }
   .logo { font-size: 26pt; }
   .rule { margin: 0 1.25rem; }
   .layout { flex-direction: column; gap: 2rem; padding: 1.25rem; }
