@@ -5,6 +5,7 @@
   "description": "Personal site — minimal static HTML/CSS/JS",
   "scripts": {
     "dev": "node server.js",
-    "build": "node build.js"
+    "build": "node build.js",
+    "add-piece": "node scripts/add-piece.js"
   }
 }
